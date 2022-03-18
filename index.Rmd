@@ -1,0 +1,97 @@
+---
+title: "'Imi Pono Hawai'i Wellbeing Survey"
+output: 
+  flexdashboard::flex_dashboard:
+    css: style.css 
+    logo: MR_Stacked_wht.png
+    orientation: rows
+    vertical_layout: scroll
+    navbar:
+      - { icon: "fa-twitter", href: "https://twitter.com/MarzanoResearch", align: right }
+      - { icon: "fa-linkedin", href: "https://www.linkedin.com/company/marzano-research/", align: right }
+      - { icon: "fa-facebook", href: "https://www.facebook.com/MarzanoResearch/", align: right }
+      - { icon: "fa-envelope", href: "https://www.marzanoresearch.com/contact", align: right}
+      - {title: "Marzano Research", href: "https://www.marzanoresearch.com/", align: right}
+    theme: 
+      version: 4
+      bg: "#ffffff"
+      fg: "#101010" 
+      navbar-bg: "#495E82"
+---
+
+<script>
+$('.navbar-logo').wrap('<a href="https://www.marzanoresearch.com/" target=_blank>');
+</script>
+
+
+<style>
+.nav-tabs-custom .nav-tabs li.active a {
+  color: black;
+}
+
+.nav-tabs-custom .nav-tabs li:not(.active) a {
+  color: black;
+}
+
+</style>
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+
+```{r, include=FALSE}
+library(tidyverse)
+library(here)
+library(janitor)
+library(rio)
+library(colorblindr)
+library(gghighlight)
+library(forcats)
+library(ggrepel)
+library(gt)
+library(knitr)
+library(kableExtra)
+library(reactable)
+library(plotly)
+library(glue)
+library(fs)
+library(rstatix)
+library(ggpubr)
+library(writexl)
+library(remotes)
+library(profvis)
+
+theme_set(theme_minimal(15) +
+            theme(legend.position = "bottom",
+                  panel.grid.major.x = element_line(colour = "gray60"),
+                  panel.grid.minor.x = element_blank(),
+                  panel.grid.major.y = element_blank())
+          )
+
+```
+
+```{r, include=FALSE}
+ks_dat <- read_csv(here("data", "export_1.csv")) %>% 
+  janitor::clean_names()
+
+str(ks_dat)
+
+ks_dat[sapply(ks_dat, is.character)] <- lapply(ks_dat[sapply(ks_dat, is.character)],
+                                                 as.factor)
+
+str(ks_dat)
+
+```
+
+
+# Demographics 
+
+
+
+
+# About Your Community 
+
+
+
+# About Your Family and Beliefs 

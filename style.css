@@ -1,0 +1,14 @@
+img{
+     max-width:48px;
+     max-height:48px;
+}
+
+
+.nav.navbar-nav.navbar-right li a {
+    color: white !important;
+}
+
+
+.nav.navbar-nav li a{
+    color: white !important;
+}
