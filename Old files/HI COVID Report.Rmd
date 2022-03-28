@@ -1,0 +1,986 @@
+---
+title: "HI COVID Report"
+author: "David McCullough"
+date: "4/1/2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+## Data Import
+
+```{r Data & libs, echo=FALSE, include=FALSE}
+library(MASS)
+library(AER)
+library(dplyr)
+load("~/General/Hawaii Dashboard/Output.RData")
+Mod_df <- app_df
+Mod_df$Hawaiian <- factor(Mod_df$`Q2 Are you Native Hawaiian?`,ordered = FALSE)
+Mod_df$Hawaiian <- relevel(Mod_df$Hawaiian,ref = "No")
+Mod_df$Loc <- factor(Mod_df$`Q3 In which county do you reside?`,ordered = FALSE)
+Mod_df$Loc <- relevel(Mod_df$Loc,ref = "Honolulu County")
+Mod_df$Age <- factor(Mod_df$`Q1 What is your age?`,ordered = FALSE)
+Mod_df$Age <- relevel(Mod_df$Age,ref = "25 - 34")
+
+```
+
+## Sample Characteristics
+
+```{r}
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(`Q3 In which county do you reside?`) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(n = n())
+
+```
+
+## Q39
+
+Q39 Caregiving for children:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)
+
+Descriptives:
+
+```{r Q39, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q39 Health/getting sick:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39, test = "Chisq")
+
+```
+
+Q39 Caregiving for dependent adults:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)
+
+Descriptives:
+
+```{r Q39.2, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q39 Caregiving for dependent adults:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39.2 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.2, test = "Chisq")
+
+```
+
+Q39 Getting laid off or being on unemployment:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)
+
+Descriptives:
+
+```{r Q39.3, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q39 Getting laid off or being on unemployment:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39.3 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.3, test = "Chisq")
+
+```
+
+Q39 Health/getting sick:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)
+
+Descriptives:
+
+```{r Q39.4, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q39 Health/getting sick:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39.4 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.4, test = "Chisq")
+
+```
+
+Q39 Losing health insurance:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)
+
+Descriptives:
+
+```{r Q39.5, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q39 Losing health insurance:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39.5 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.5, test = "Chisq")
+
+```
+
+Q39 Loss of services in my community:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)
+
+Descriptives:
+
+```{r Q39.6, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q39 Loss of services in my community:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39.6 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.6, test = "Chisq")
+
+```
+
+Q39 Loss of small businesses in my community:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)
+
+Descriptives:
+
+```{r Q39.7, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q39 Loss of small businesses in my community:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39.7 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.7, test = "Chisq")
+
+```
+
+Q39 Mental and emotional well-being:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)
+
+Descriptives:
+
+```{r Q39.8, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q39 Mental and emotional well-being:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.8, test = "Chisq")
+
+```
+
+Q39 My children falling behind in school:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)
+
+Descriptives:
+
+```{r Q39.9, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q39 My children falling behind in school:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39.9 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.9, test = "Chisq")
+
+```
+
+Q39 Not being able to find work:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)
+
+```{r Q39.10, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q39 Not being able to find work:What, if anything, are you worried about in light of the COVID-19 crisis for you or your family? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39.10 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.10, test = "Chisq")
+
+```
+
+## Q40
+
+Q40 Before the COVID-19 crisis, how would you have described your household's financial situation?
+
+Descriptives:
+
+```{r Q40, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q40 Before the COVID-19 crisis, how would you have described your household's financial situation?`,levels = c("Enough savings to pay for more than 1 year of expenses", "Enough savings to pay for 3 months to 1 year of expenses", "Enough savings to pay for 1 to 2 months of expenses", "Living paycheck-to-paycheck (not saving any money)", "Not making ends meet (have to rely on loans or credit cards to pay bills)"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+
+```
+
+Analyses:
+
+```{r, echo=FALSE,message=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian +
+           Age,data = Mod_df,Hess=TRUE)
+
+p3 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian + Age + Loc:Hawaiian,data = Mod_df,Hess=TRUE)
+
+
+p4 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian + Age + Loc:Hawaiian + Age:Hawaiian,data = Mod_df,Hess=TRUE)
+
+p5 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian + 
+           Age + 
+           Loc:Hawaiian + 
+           Age:Hawaiian + 
+           Age:Loc,data = Mod_df,Hess=TRUE)
+
+tab <- anova(pn,p0,p1,p2,p3,p4,p5,test = "Chisq")
+tab$`Pr(Chi)` <- round(tab$`Pr(Chi)`,3)
+
+tab$Model <- c("Null", "Hawaiian","Loc","Age","Loc:Hawaiian","Age:Hawaiian","Age:Loc")
+tab
+```
+
+## Q41
+
+Q41 During the COVID-19 crisis, how would you describe your household's financial situation?
+
+Descriptives:
+
+```{r Q41, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q41 During the COVID-19 crisis, how would you describe your household's financial situation?`,levels = c("Enough savings to pay for more than 1 year of expenses", "Enough savings to pay for 3 months to 1 year of expenses", "Enough savings to pay for 1 to 2 months of expenses", "Living paycheck-to-paycheck (not saving any money)", "Not making ends meet (have to rely on loans or credit cards to pay bills)"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian +
+           Age,data = Mod_df,Hess=TRUE)
+
+p3 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian + Age + Loc:Hawaiian,data = Mod_df,Hess=TRUE)
+
+p4 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian + Age + Loc:Hawaiian + Age:Hawaiian,data = Mod_df,Hess=TRUE)
+
+p5 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian + 
+           Age + 
+           Loc:Hawaiian + 
+           Age:Hawaiian + 
+           Age:Loc,data = Mod_df,Hess=TRUE)
+
+tab <- anova(pn,p0,p1,p2,p3,p4,p5,test = "Chisq")
+tab$`Pr(Chi)` <- round(tab$`Pr(Chi)`,3)
+
+tab$Model <- c("Null","Hawaiian","Loc","Age","Loc:Hawaiian","Age:Hawaiian","Age:Loc")
+tab
+```
+
+## Q42
+
+This is an open ended question.
+
+## Q43
+
+Q43 Members of my household depend on community spaces like libraries and public "hot spots" for internet access.:Which of the following is true for you regarding digital connectivity? (Select all that apply)
+
+Descriptives:
+
+```{r Q43.1, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q43 Members of my household depend on community spaces like libraries and public "hot spots" for internet access.:Which of the following is true for you regarding digital connectivity? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39.3 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.3, test = "Chisq")
+```
+
+Q43 My household has enough internet-capable devices for everyone to be online at the same time, if needed.:Which of the following is true for you regarding digital connectivity? (Select all that apply)
+
+Descriptives:
+
+```{r Q43.2, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q43 My household has enough internet-capable devices for everyone to be online at the same time, if needed.:Which of the following is true for you regarding digital connectivity? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+
+p2q39.3 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.3, test = "Chisq")
+```
+
+Q43 My household has internet access at a speed and quality that meets our needs.:Which of the following is true for you regarding digital connectivity? (Select all that apply)
+
+Descriptives:
+
+```{r Q43.3, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q43 My household has internet access at a speed and quality that meets our needs.:Which of the following is true for you regarding digital connectivity? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+
+p2q39.3 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.3, test = "Chisq")
+
+
+```
+
+Q43 My household plans to keep our internet subscription at the same level.:Which of the following is true for you regarding digital connectivity? (Select all that apply)
+
+Descriptives:
+
+```{r Q43.4, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q43 My household plans to keep our internet subscription at the same level.:Which of the following is true for you regarding digital connectivity? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+
+p2q39.3 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.3, test = "Chisq")
+```
+
+Q43 The internet-capable devices in my household are easy to use for essential purposes like school or work.:Which of the following is true for you regarding digital connectivity? (Select all that apply)
+
+Descriptives:
+
+```{r Q43.5, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q43 The internet-capable devices in my household are easy to use for essential purposes like school or work.:Which of the following is true for you regarding digital connectivity? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Age) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Age) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+
+p2q39.3 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc*Age - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.3, test = "Chisq")
+```

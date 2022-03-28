@@ -1,0 +1,246 @@
+---
+title: "HI Connectivity"
+author: "David McCullough"
+date: "5/4/2021"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+## Data Import
+
+```{r Data & libs, echo=FALSE, include=FALSE}
+library(MASS)
+library(AER)
+library(dplyr)
+library(stringr)
+load("~/General/Hawaii Dashboard/Output.RData")
+Mod_df <- app_df
+Mod_df$Hawaiian <- factor(Mod_df$`Q2 Are you Native Hawaiian?`,ordered = FALSE)
+Mod_df$Hawaiian <- relevel(Mod_df$Hawaiian,ref = "No")
+Mod_df$Loc <- factor(Mod_df$`Q3 In which county do you reside?`,ordered = FALSE)
+Mod_df$Loc <- relevel(Mod_df$Loc,ref = "Honolulu County")
+Mod_df$Age <- factor(Mod_df$`Q1 What is your age?`,ordered = FALSE)
+Mod_df$Age <- relevel(Mod_df$Age,ref = "25 - 34")
+
+Mod_df$`Q44 What is the estimated yearly income of your household?` <- str_replace(Mod_df$`Q44 What is the estimated yearly income of your household?`,pattern = "‚Äì",replacement = "-")
+
+Mod_df$`Q44 What is the estimated yearly income of your household?` <- factor(Mod_df$`Q44 What is the estimated yearly income of your household?`,levels = c("Less than $25,000","$25,000 - $44,000","$45,000 - $64,000","$65,000 - $84,000","$85,000 - $104,000",
+  "$105,000 - $124,000","$125, 000 - $144,000","$145,000 - $164,000","$165,000 - $184,000","$185,000 - $200,000","More than $200,000"),ordered = TRUE)
+
+Mod_df$income <- ifelse(Mod_df$`Q44 What is the estimated yearly income of your household?` <= "$45,000 - $64,000","<$65,000",">=$65,000")
+
+Mod_df$income <- as.factor(Mod_df$income)
+
+Mod_df$education <- factor(Mod_df$`Q47 What is your highest level of education?`,levels = c("Less than high school", "High school or equivalent", "Some college or Associate's degree", "Bachelor's degree", "Masters degree or higher"),ordered = TRUE)
+
+Mod_df$education <- ifelse(Mod_df$education <= "High school or equivalent","No Postsecondary Ed","Postsecondary Ed")
+
+Mod_df$education <- as.factor(Mod_df$education)
+```
+
+## Q43
+
+Q43 Members of my household depend on community spaces like libraries and public "hot spots" for internet access.:Which of the following is true for you regarding digital connectivity? (Select all that apply)
+
+Descriptives:
+
+```{r Q43.1, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q43 Members of my household depend on community spaces like libraries and public "hot spots" for internet access.:Which of the following is true for you regarding digital connectivity? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,income) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,education) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(income) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(education) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q39.3 <- glm(formula = Current_Q ~
+         income*education*Loc - income:education:Loc,data = Mod_df,family = "binomial")
+
+anova(p2q39.3, test = "Chisq")
+```
+
+Q43 My household has enough internet-capable devices for everyone to be online at the same time, if needed.:Which of the following is true for you regarding digital connectivity? (Select all that apply)
+
+Descriptives:
+
+```{r Q43.2, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q43 My household has enough internet-capable devices for everyone to be online at the same time, if needed.:Which of the following is true for you regarding digital connectivity? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,income) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,education) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(income) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(education) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+
+p2q39.3 <- glm(formula = Current_Q ~
+         income*education*Loc - income:education:Loc,data = Mod_df,family = "binomial")
+
+anova(p2q39.3, test = "Chisq")
+```
+
+Q43 My household has internet access at a speed and quality that meets our needs.:Which of the following is true for you regarding digital connectivity? (Select all that apply)
+
+Descriptives:
+
+```{r Q43.3, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q43 My household has internet access at a speed and quality that meets our needs.:Which of the following is true for you regarding digital connectivity? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,income) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,education) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(income) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(education) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+
+Analyses:
+
+```{r, echo=FALSE}
+
+p2q39.3 <- glm(formula = Current_Q ~
+         income*education *
+         Loc - Hawaiian:Loc:Age,data = Mod_df,family = "binomial")
+
+anova(p2q39.3, test = "Chisq")
+
+
+```
+
+Q43 My household plans to keep our internet subscription at the same level.:Which of the following is true for you regarding digital connectivity? (Select all that apply)
+
+Descriptives:
+
+```{r Q43.4, echo=FALSE,message=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q43 My household plans to keep our internet subscription at the same level.:Which of the following is true for you regarding digital connectivity? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,income) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,education) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(income) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(education) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+```{r, echo=FALSE}
+
+p2q39.3 <- glm(formula = Current_Q ~
+         income*education*Loc - income:education:Loc,data = Mod_df,family = "binomial")
+
+anova(p2q39.3, test = "Chisq")
+
+
+```

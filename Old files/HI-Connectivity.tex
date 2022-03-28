@@ -1,0 +1,551 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={HI Connectivity},
+            pdfauthor={David McCullough},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{HI Connectivity}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{David McCullough}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{5/4/2021}
+
+
+\begin{document}
+\maketitle
+
+\hypertarget{data-import}{%
+\subsection{Data Import}\label{data-import}}
+
+\hypertarget{q43}{%
+\subsection{Q43}\label{q43}}
+
+Q43 Members of my household depend on community spaces like libraries
+and public ``hot spots'' for internet access.:Which of the following is
+true for you regarding digital connectivity? (Select all that apply)
+
+Descriptives:
+
+\begin{verbatim}
+## # A tibble: 2 x 2
+##   Current_Q     n
+##   <fct>     <int>
+## 1 No         1327
+## 2 Yes         131
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q income        n
+##   <fct>     <fct>     <int>
+## 1 No        <$65,000    495
+## 2 No        >=$65,000   649
+## 3 No        <NA>        183
+## 4 Yes       <$65,000     68
+## 5 Yes       >=$65,000    58
+## 6 Yes       <NA>          5
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q education               n
+##   <fct>     <fct>               <int>
+## 1 No        No Postsecondary Ed   185
+## 2 No        Postsecondary Ed     1038
+## 3 No        <NA>                  104
+## 4 Yes       No Postsecondary Ed    18
+## 5 Yes       Postsecondary Ed      112
+## 6 Yes       <NA>                    1
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 8 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q Loc                             n
+##   <fct>     <fct>                       <int>
+## 1 No        Honolulu County               774
+## 2 No        Hawai'i County                282
+## 3 No        Kaua'i County                 100
+## 4 No        Maui-Moloka'i-Lana'i County   171
+## 5 Yes       Honolulu County                62
+## 6 Yes       Hawai'i County                 32
+## 7 Yes       Kaua'i County                  20
+## 8 Yes       Maui-Moloka'i-Lana'i County    17
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 1 x 2
+##     mean    sd
+##    <dbl> <dbl>
+## 1 0.0898 0.286
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 3 x 3
+##   income      mean    sd
+##   <fct>      <dbl> <dbl>
+## 1 <$65,000  0.121  0.326
+## 2 >=$65,000 0.0820 0.275
+## 3 <NA>      0.0266 0.161
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 3 x 3
+##   education              mean     sd
+##   <fct>                 <dbl>  <dbl>
+## 1 No Postsecondary Ed 0.0887  0.285 
+## 2 Postsecondary Ed    0.0974  0.297 
+## 3 <NA>                0.00952 0.0976
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 4 x 3
+##   Loc                           mean    sd
+##   <fct>                        <dbl> <dbl>
+## 1 Honolulu County             0.0742 0.262
+## 2 Hawai'i County              0.102  0.303
+## 3 Kaua'i County               0.167  0.374
+## 4 Maui-Moloka'i-Lana'i County 0.0904 0.288
+\end{verbatim}
+
+Analyses:
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model: binomial, link: logit
+## 
+## Response: Current_Q
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##                  Df Deviance Resid. Df Resid. Dev Pr(>Chi)  
+## NULL                              1237     814.53           
+## income            1   4.8761      1236     809.65  0.02723 *
+## education         1   1.3551      1235     808.30  0.24438  
+## Loc               3   7.3285      1232     800.97  0.06213 .
+## income:education  1   4.0823      1231     796.89  0.04334 *
+## income:Loc        3   3.6996      1228     793.19  0.29579  
+## education:Loc     3   2.1793      1225     791.01  0.53604  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+Q43 My household has enough internet-capable devices for everyone to be
+online at the same time, if needed.:Which of the following is true for
+you regarding digital connectivity? (Select all that apply)
+
+Descriptives:
+
+\begin{verbatim}
+## # A tibble: 2 x 2
+##   Current_Q     n
+##   <fct>     <int>
+## 1 No          601
+## 2 Yes         857
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q income        n
+##   <fct>     <fct>     <int>
+## 1 No        <$65,000    276
+## 2 No        >=$65,000   232
+## 3 No        <NA>         93
+## 4 Yes       <$65,000    287
+## 5 Yes       >=$65,000   475
+## 6 Yes       <NA>         95
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q education               n
+##   <fct>     <fct>               <int>
+## 1 No        No Postsecondary Ed    97
+## 2 No        Postsecondary Ed      428
+## 3 No        <NA>                   76
+## 4 Yes       No Postsecondary Ed   106
+## 5 Yes       Postsecondary Ed      722
+## 6 Yes       <NA>                   29
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 8 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q Loc                             n
+##   <fct>     <fct>                       <int>
+## 1 No        Honolulu County               329
+## 2 No        Hawai'i County                141
+## 3 No        Kaua'i County                  56
+## 4 No        Maui-Moloka'i-Lana'i County    75
+## 5 Yes       Honolulu County               507
+## 6 Yes       Hawai'i County                173
+## 7 Yes       Kaua'i County                  64
+## 8 Yes       Maui-Moloka'i-Lana'i County   113
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 1 x 2
+##    mean    sd
+##   <dbl> <dbl>
+## 1 0.588 0.492
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 3 x 3
+##   income     mean    sd
+##   <fct>     <dbl> <dbl>
+## 1 <$65,000  0.510 0.500
+## 2 >=$65,000 0.672 0.470
+## 3 <NA>      0.505 0.501
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 3 x 3
+##   education            mean    sd
+##   <fct>               <dbl> <dbl>
+## 1 No Postsecondary Ed 0.522 0.501
+## 2 Postsecondary Ed    0.628 0.484
+## 3 <NA>                0.276 0.449
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 4 x 3
+##   Loc                          mean    sd
+##   <fct>                       <dbl> <dbl>
+## 1 Honolulu County             0.606 0.489
+## 2 Hawai'i County              0.551 0.498
+## 3 Kaua'i County               0.533 0.501
+## 4 Maui-Moloka'i-Lana'i County 0.601 0.491
+\end{verbatim}
+
+Analyses:
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model: binomial, link: logit
+## 
+## Response: Current_Q
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##                  Df Deviance Resid. Df Resid. Dev  Pr(>Chi)    
+## NULL                              1237     1664.6              
+## income            1   35.195      1236     1629.4 2.983e-09 ***
+## education         1    1.692      1235     1627.7    0.1933    
+## Loc               3    1.180      1232     1626.5    0.7579    
+## income:education  1    1.282      1231     1625.2    0.2575    
+## income:Loc        3    5.103      1228     1620.1    0.1644    
+## education:Loc     3    2.826      1225     1617.3    0.4193    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+Q43 My household has internet access at a speed and quality that meets
+our needs.:Which of the following is true for you regarding digital
+connectivity? (Select all that apply)
+
+Descriptives:
+
+\begin{verbatim}
+## # A tibble: 2 x 2
+##   Current_Q     n
+##   <fct>     <int>
+## 1 No          652
+## 2 Yes         806
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q income        n
+##   <fct>     <fct>     <int>
+## 1 No        <$65,000    249
+## 2 No        >=$65,000   289
+## 3 No        <NA>        114
+## 4 Yes       <$65,000    314
+## 5 Yes       >=$65,000   418
+## 6 Yes       <NA>         74
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q education               n
+##   <fct>     <fct>               <int>
+## 1 No        No Postsecondary Ed   100
+## 2 No        Postsecondary Ed      480
+## 3 No        <NA>                   72
+## 4 Yes       No Postsecondary Ed   103
+## 5 Yes       Postsecondary Ed      670
+## 6 Yes       <NA>                   33
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 8 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q Loc                             n
+##   <fct>     <fct>                       <int>
+## 1 No        Honolulu County               354
+## 2 No        Hawai'i County                144
+## 3 No        Kaua'i County                  54
+## 4 No        Maui-Moloka'i-Lana'i County   100
+## 5 Yes       Honolulu County               482
+## 6 Yes       Hawai'i County                170
+## 7 Yes       Kaua'i County                  66
+## 8 Yes       Maui-Moloka'i-Lana'i County    88
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 1 x 2
+##    mean    sd
+##   <dbl> <dbl>
+## 1 0.553 0.497
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 3 x 3
+##   income     mean    sd
+##   <fct>     <dbl> <dbl>
+## 1 <$65,000  0.558 0.497
+## 2 >=$65,000 0.591 0.492
+## 3 <NA>      0.394 0.490
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 3 x 3
+##   education            mean    sd
+##   <fct>               <dbl> <dbl>
+## 1 No Postsecondary Ed 0.507 0.501
+## 2 Postsecondary Ed    0.583 0.493
+## 3 <NA>                0.314 0.466
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 4 x 3
+##   Loc                          mean    sd
+##   <fct>                       <dbl> <dbl>
+## 1 Honolulu County             0.577 0.494
+## 2 Hawai'i County              0.541 0.499
+## 3 Kaua'i County               0.55  0.500
+## 4 Maui-Moloka'i-Lana'i County 0.468 0.500
+\end{verbatim}
+
+Analyses:
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model: binomial, link: logit
+## 
+## Response: Current_Q
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##                      Df Deviance Resid. Df Resid. Dev Pr(>Chi)
+## NULL                                  1237     1690.0         
+## income                1   0.7919      1236     1689.2   0.3735
+## education             1   1.7761      1235     1687.4   0.1826
+## Loc                   3   5.2135      1232     1682.2   0.1568
+## income:education      1   0.0012      1231     1682.2   0.9724
+## income:Loc            3   1.4600      1228     1680.7   0.6915
+## education:Loc         3   3.7298      1225     1677.0   0.2922
+## income:education:Loc  3   3.2083      1222     1673.8   0.3606
+\end{verbatim}
+
+Q43 My household plans to keep our internet subscription at the same
+level.:Which of the following is true for you regarding digital
+connectivity? (Select all that apply)
+
+Descriptives:
+
+\begin{verbatim}
+## # A tibble: 2 x 2
+##   Current_Q     n
+##   <fct>     <int>
+## 1 No          936
+## 2 Yes         522
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q income        n
+##   <fct>     <fct>     <int>
+## 1 No        <$65,000    376
+## 2 No        >=$65,000   430
+## 3 No        <NA>        130
+## 4 Yes       <$65,000    187
+## 5 Yes       >=$65,000   277
+## 6 Yes       <NA>         58
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q education               n
+##   <fct>     <fct>               <int>
+## 1 No        No Postsecondary Ed   153
+## 2 No        Postsecondary Ed      698
+## 3 No        <NA>                   85
+## 4 Yes       No Postsecondary Ed    50
+## 5 Yes       Postsecondary Ed      452
+## 6 Yes       <NA>                   20
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 8 x 3
+## # Groups:   Current_Q [2]
+##   Current_Q Loc                             n
+##   <fct>     <fct>                       <int>
+## 1 No        Honolulu County               535
+## 2 No        Hawai'i County                205
+## 3 No        Kaua'i County                  76
+## 4 No        Maui-Moloka'i-Lana'i County   120
+## 5 Yes       Honolulu County               301
+## 6 Yes       Hawai'i County                109
+## 7 Yes       Kaua'i County                  44
+## 8 Yes       Maui-Moloka'i-Lana'i County    68
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 1 x 2
+##    mean    sd
+##   <dbl> <dbl>
+## 1 0.358 0.480
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 3 x 3
+##   income     mean    sd
+##   <fct>     <dbl> <dbl>
+## 1 <$65,000  0.332 0.471
+## 2 >=$65,000 0.392 0.488
+## 3 <NA>      0.309 0.463
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 3 x 3
+##   education            mean    sd
+##   <fct>               <dbl> <dbl>
+## 1 No Postsecondary Ed 0.246 0.432
+## 2 Postsecondary Ed    0.393 0.489
+## 3 <NA>                0.190 0.395
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 4 x 3
+##   Loc                          mean    sd
+##   <fct>                       <dbl> <dbl>
+## 1 Honolulu County             0.360 0.480
+## 2 Hawai'i County              0.347 0.477
+## 3 Kaua'i County               0.367 0.484
+## 4 Maui-Moloka'i-Lana'i County 0.362 0.482
+\end{verbatim}
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model: binomial, link: logit
+## 
+## Response: Current_Q
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##                  Df Deviance Resid. Df Resid. Dev Pr(>Chi)    
+## NULL                              1237     1623.9             
+## income            1   4.3141      1236     1619.6   0.0378 *  
+## education         1  16.0899      1235     1603.5 6.04e-05 ***
+## Loc               3   0.4894      1232     1603.0   0.9212    
+## income:education  1   1.1945      1231     1601.8   0.2744    
+## income:Loc        3   2.6159      1228     1599.2   0.4547    
+## education:Loc     3   3.8984      1225     1595.3   0.2726    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+
+\end{document}

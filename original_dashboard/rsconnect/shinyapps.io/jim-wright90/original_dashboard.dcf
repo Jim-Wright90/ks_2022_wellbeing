@@ -1,0 +1,13 @@
+name: original_dashboard
+title: original_dashboard
+username:
+account: jim-wright90
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5954043
+bundleId: 5736623
+url: https://jim-wright90.shinyapps.io/original_dashboard/
+when: 1648492920.63869
+lastSyncTime: 1648492920.6387
+asMultiple: FALSE
+asStatic: FALSE

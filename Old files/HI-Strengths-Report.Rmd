@@ -1,0 +1,2445 @@
+---
+title: "HI Strengths Output"
+author: "David McCullough"
+date: "4/7/2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+## Data Import
+
+```{r Data & libs, echo=FALSE, include=FALSE}
+library(MASS)
+library(AER)
+library(dplyr)
+load("~/General/Hawaii Dashboard/Output.RData")
+Mod_df <- app_df
+Mod_df$Hawaiian <- factor(Mod_df$`Q2 Are you Native Hawaiian?`,ordered = FALSE)
+Mod_df$Hawaiian <- relevel(Mod_df$Hawaiian,ref = "No")
+Mod_df$Loc <- factor(Mod_df$`Q3 In which county do you reside?`,ordered = FALSE)
+Mod_df$Loc <- relevel(Mod_df$Loc,ref = "Honolulu County")
+Mod_df$Age <- factor(Mod_df$`Q1 What is your age?`,ordered = FALSE)
+Mod_df$Age <- relevel(Mod_df$Age,ref = "25 - 34")
+```
+
+## Q6
+
+Q6 COVID-19 restrictions:To what extent do the following factors limit your access to education programs?
+
+```{r Q6, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q6 COVID-19 restrictions:To what extent do the following factors limit your access to education programs?`,levels = c("To a great extent", "To a moderate extent", "To some extent", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2q6 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2q6)
+
+exp(-p2q6$coefficients["HawaiianYes"])
+
+```
+
+Q6 Distance and transportation:To what extent do the following factors limit your access to education programs?
+
+```{r Q6.2, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q6 Distance and transportation:To what extent do the following factors limit your access to education programs?`,levels = c("To a great extent", "To a moderate extent", "To some extent", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2q6.2 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2q6.2)
+
+```
+
+Q6 Lack of time or competing priorities:To what extent do the following factors limit your access to education programs?
+
+```{r Q6.3, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q6 Lack of time or competing priorities:To what extent do the following factors limit your access to education programs?`,levels = c("To a great extent", "To a moderate extent", "To some extent", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2q6.3 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2q6.3)
+
+cat(paste("\n\nHawaiians are",round(exp(-p0$coefficients["HawaiianYes"]),2),"times more likely to answer favorably.\n\n"))
+```
+
+Q6 Program requirements (for example, application forms, time of day, required volunteer hours):To what extent do the following factors limit your access to education programs?
+
+```{r Q6.4, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q6 Program requirements (for example, application forms, time of day, required volunteer hours):To what extent do the following factors limit your access to education programs?`,levels = c("To a great extent", "To a moderate extent", "To some extent", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2q6.4 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2q6.4)
+
+```
+
+Q6 Programs don't meet my family's needs:To what extent do the following factors limit your access to education programs?
+
+```{r Q6.5, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q6 Programs don't meet my family's needs:To what extent do the following factors limit your access to education programs?`,levels = c("To a great extent", "To a moderate extent", "To some extent", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2q6.5 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2q6.5)
+
+```
+
+Q6 Tuition or program fees:To what extent do the following factors limit your access to education programs?
+
+```{r Q6.6, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q6 Tuition or program fees:To what extent do the following factors limit your access to education programs?`,levels = c("To a great extent", "To a moderate extent", "To some extent", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2q6.6 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2q6.6)
+
+```
+
+##Q7
+
+```{r Q7, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q7 How connected do you feel to a spiritual or religious community?`,levels = c("Extremely", "Quite a bit", "Moderately", "A little bit", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2q7 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2q7)
+
+```
+
+##Q8
+
+Q8 How connected do you feel to an ethnic or cultural community?
+
+```{r Q8, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q8 How connected do you feel to an ethnic or cultural community?`,levels = c("Extremely", "Quite a bit", "Moderately", "A little bit", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2q8 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2q8)
+
+```
+
+Q9 How connected do you feel to the geographic community in which you live?
+
+```{r Q9, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q9 How connected do you feel to the geographic community in which you live?`,levels = c("Extremely", "Quite a bit", "Moderately", "A little bit", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2q9 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2q9)
+
+```
+
+Q10 How connected do you feel to your neighbors (for example, visiting with them, asking them to watch your home, offering help to them when they ask)?
+
+```{r Q10, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q10 How connected do you feel to your neighbors (for example, visiting with them, asking them to watch your home, offering help to them when they ask)?`,levels = c("Extremely", "Quite a bit", "Moderately", "A little bit", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2)
+
+```
+
+Q31 How often do you spend time learning about Native Hawaiian culture?
+
+```{r Q31, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q31 How often do you spend time learning about Native Hawaiian culture?`,levels = c("Daily", "Weekly", "Monthly", "Once or twice a year", "Never"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2q31 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2q31)
+```
+
+Q32 How often do you participate in activities you consider to be based in Native Hawaiian culture? (For example, surfing, hula, genealogy, historic holidays, lo'i kalo [taro farming])
+
+```{r Q32, echo=FALSE}
+
+Mod_df$Current_Q <- factor(Mod_df$`Q32 How often do you participate in activities you consider to be based in Native Hawaiian culture? (For example, surfing, hula, genealogy, historic holidays, lo'i kalo [taro farming])`,levels = c("Daily", "Weekly", "Monthly", "Once or twice a year", "Never"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2q31 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2q31)
+```
+
+Q4  Written a letter or submitted testimony about an issue that is important to you:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q4  Written a letter or submitted testimony about an issue that is important to you:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q4 Made donations to benefit the community:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q4 Made donations to benefit the community:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q4 Met with a local official about an issue that is important to you:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q4 Met with a local official about an issue that is important to you:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q4 None:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q4 None:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q4 Organized an event to address a community issue:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q4 Organized an event to address a community issue:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q4 Participated in an event to address a community issue:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q4 Participated in an event to address a community issue:In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q4 Worked with others in the community to achieve a common goal (for example, fundraising for the local library):In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q4 Worked with others in the community to achieve a common goal (for example, fundraising for the local library):In the last 12 months, which of the following community-building activities have you participated in virtually or in person? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q10 - above
+
+Q12 With my family and friends:If leadership means serving others and improving your community, where do you act as a leader? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q12 With my family and friends:If leadership means serving others and improving your community, where do you act as a leader? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q12 At my workplace:If leadership means serving others and improving your community, where do you act as a leader? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q12 At my workplace:If leadership means serving others and improving your community, where do you act as a leader? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q12 At my workplace:If leadership means serving others and improving your community, where do you act as a leader? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q12 At my workplace:If leadership means serving others and improving your community, where do you act as a leader? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q12 In community organizations (for example, clubs, churches, schools):If leadership means serving others and improving your community, where do you act as a leader? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q12 In community organizations (for example, clubs, churches, schools):If leadership means serving others and improving your community, where do you act as a leader? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q12 On the aina (land) or kai (ocean):If leadership means serving others and improving your community, where do you act as a leader? (Select all that apply)
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q12 On the aina (land) or kai (ocean):If leadership means serving others and improving your community, where do you act as a leader? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+p2q20.8 <- glm(formula = Current_Q ~
+         Hawaiian *
+         Loc,data = Mod_df,family = "binomial")
+
+anova(p2q20.8, test = "Chisq")
+
+```
+
+Q34 How often do you spend time contributing to the well-being of the Native Hawaiian community?
+
+```{r Q34, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q34 How often do you spend time contributing to the well-being of the Native Hawaiian community?`,levels = c("Daily","Weekly","Monthly","A couple of times a year",   "Rarely","Never"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 7 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  7 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  7 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q34 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2Q34)
+
+```
+
+Q15 Do you believe in a "higher power" such as God (Ke Akua) or other deities (personal, family, or Hawaiian gods)?
+
+```{r Q15, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q15 Do you believe in a "higher power" such as God (Ke Akua) or other deities (personal, family, or Hawaiian gods)?`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q15 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q15, test = "Chisq")
+
+cat(paste("\n\nHawaiians are",round(exp(p2q15$coefficients["HawaiianYes"]),2),"times more likely to answer \"yes\".\n\n"))
+```
+
+Q16 How important is your belief in a "higher power" to your well-being?
+
+```{r Q16, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q16 How important is your belief in a "higher power" to your well-being?`,levels = c("Extremely", "Quite a bit", "Moderately", "A little bit", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q16 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2Q16)
+
+cat(paste("\n\nHawaiians are",round(exp(-p2Q16$coefficients["HawaiianYes"]),2),"times as likely to indicate importance.\n\n"))
+
+```
+
+Q17 How important is the health of the aina (land) and kai (ocean) to your well-being?
+
+```{r Q17, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q17 How important is the health of the aina (land) and kai (ocean) to your well-being?`,levels = c("Extremely", "Quite a bit", "Moderately", "A little bit", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q17 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2Q17)
+
+cat(paste("\n\nHawaiians are",round(exp(-p2Q17$coefficients["HawaiianYes"]),2),"times as likely to indicate importance.\n\n"))
+
+```
+
+Q 18 How important is your cultural heritage to your well-being?
+
+```{r Q18, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q 18 How important is your cultural heritage to your well-being?`,levels = c("Extremely", "Quite a bit", "Moderately", "A little bit", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q18 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2Q18)
+
+cat(paste("\n\nHawaiians are",round(exp(-p2Q18$coefficients["HawaiianYes"]),2),"times as likely to indicate importance.\n\n"))
+
+```
+
+Q19 How important are your 'ohana (family) relationships to your well-being?
+
+```{r Q19, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q19 How important are your 'ohana (family) relationships to your well-being?`,levels = c("Extremely", "Quite a bit", "Moderately", "A little bit", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q19 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2Q19)
+
+cat(paste("\n\nHawaiians are",round(exp(-p2Q19$coefficients["HawaiianYes"]),2),"times as likely to indicate importance.\n\n"))
+```
+
+Q29 How much do you care about Native Hawaiian issues such as self-determination, native land rights, and the revitalization of Hawaiian language?
+
+```{r Q29, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q29 How much do you care about Native Hawaiian issues such as self-determination, native land rights, and the revitalization of Hawaiian language?`,levels = c("Extremely", "Quite a bit", "Moderately", "A little bit", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q29 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2Q29)
+
+cat(paste("\n\nHawaiians are",round(exp(-p2Q29$coefficients["HawaiianYes"]),2),"times as likely to indicate importance.\n\n"))
+```
+
+Q28 How important is it for future generations to speak Olelo Hawai'i (Hawaiian language)?
+
+```{r Q28, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q28 How important is it for future generations to speak Olelo Hawai'i (Hawaiian language)?`,levels = c("Extremely", "Quite a bit", "Moderately", "A little bit", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q28 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2Q28)
+
+cat(paste("\n\nHawaiians are",round(exp(-p2Q28$coefficients["HawaiianYes"]),2),"times as likely to indicate importance.\n\n"))
+```
+
+Q27 I am currently learning Olelo Hawai'i.:Which of the following is true for you regarding learning Olelo Hawai'i (Hawaiian language)? (Select all that apply)
+
+```{r Q27, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q27 I am currently learning Olelo Hawai'i.:Which of the following is true for you regarding learning Olelo Hawai'i (Hawaiian language)? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q27 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q27, test = "Chisq")
+
+cat(paste("\n\nHawaiians are",round(exp(p2q27$coefficients["HawaiianYes"]),2),"times more likely to answer \"yes\".\n\n"))
+```
+
+Q27 I am fluent in Olelo Hawai'i and continuously learning.:Which of the following is true for you regarding learning Olelo Hawai'i (Hawaiian language)? (Select all that apply)
+
+```{r Q27.2, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q27 I am fluent in Olelo Hawai'i and continuously learning.:Which of the following is true for you regarding learning Olelo Hawai'i (Hawaiian language)? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q27.2 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q27.2, test = "Chisq")
+
+cat(paste("\n\nHawaiians are",round(exp(p2q27.2$coefficients["HawaiianYes"]),2),"times more likely to answer \"yes\".\n\n"))
+```
+
+Q27 I am interested in learning Olelo Hawai'i, but cannot access learning resources due to cost, time, or other constraints.:Which of the following is true for you regarding learning Olelo Hawai'i (Hawaiian language)? (Select all that apply)
+
+```{r Q27.3, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q27 I am interested in learning Olelo Hawai'i, but cannot access learning resources due to cost, time, or other constraints.:Which of the following is true for you regarding learning Olelo Hawai'i (Hawaiian language)? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q27.3 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q27.3, test = "Chisq")
+
+cat(paste("\n\nHawaiians are",round(exp(p2q27.3$coefficients["HawaiianYes"]),2),"times more likely to answer \"yes\".\n\n"))
+```
+
+Q27 I am interested in learning Olelo Hawai'i, but don't know how to do so.:Which of the following is true for you regarding learning Olelo Hawai'i (Hawaiian language)? (Select all that apply)
+
+```{r Q27.4, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q27 I am interested in learning Olelo Hawai'i, but don't know how to do so.:Which of the following is true for you regarding learning Olelo Hawai'i (Hawaiian language)? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q27.4 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q27.4, test = "Chisq")
+
+cat(paste("\n\nHawaiians are",round(exp(p2q27.4$coefficients["HawaiianYes"]),2),"times more likely to answer \"yes\".\n\n"))
+```
+
+Q27 I am not interested in learning Olelo Hawai'i.:Which of the following is true for you regarding learning Olelo Hawai'i (Hawaiian language)? (Select all that apply)
+
+```{r Q27.5, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q27 I am not interested in learning Olelo Hawai'i.:Which of the following is true for you regarding learning Olelo Hawai'i (Hawaiian language)? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q27.5 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q27.5, test = "Chisq")
+
+cat(paste("\n\nHawaiians are",round(exp(-p2q27.5$coefficients["HawaiianYes"]),2),"times less likely to answer \"yes\".\n\n"))
+```
+
+Q26 I can converse at a beginner level with other Olelo Hawai'i speakers.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)
+
+```{r Q26, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q26 I can converse at a beginner level with other Olelo Hawai'i speakers.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q26 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q26, test = "Chisq")
+
+cat(paste("\n\nHawaiians are",round(exp(p2q26$coefficients["HawaiianYes"]),2),"times more likely to answer \"yes\".\n\n"))
+```
+
+Q26 I can converse at an advanced level with other Olelo Hawai'i speakers.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)
+
+```{r Q26.2, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q26 I can converse at an advanced level with other Olelo Hawai'i speakers.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q26.2 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q26.2, test = "Chisq")
+
+cat(paste("\n\nHawaiians are",round(exp(p1$coefficients["HawaiianYes"]),2),"times more likely to answer \"yes\".\n\n"))
+```
+
+Q26 I can converse at an intermediate level with other Olelo Hawai'i speakers.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)
+
+```{r Q26.3, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q26 I can converse at an intermediate level with other Olelo Hawai'i speakers.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q26.3 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q26.3, test = "Chisq")
+
+cat(paste("\n\nHawaiians are",round(exp(p1$coefficients["HawaiianYes"]),2),"times more likely to answer \"yes\".\n\n"))
+```
+
+Q26 I can read Olelo Hawai'i.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)
+
+```{r Q26.4, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q26 I can read Olelo Hawai'i.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q26.4 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q26.4, test = "Chisq")
+
+```
+
+Q26 I can understand common words and phrases in Olelo Hawai'i.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)
+
+```{r Q26.5, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q26 I can understand common words and phrases in Olelo Hawai'i.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q26.5 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q26.5, test = "Chisq")
+
+```
+
+Q26 I can write Olelo Hawai'i.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)
+
+```{r Q26.6, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q26 I can write Olelo Hawai'i.:Which of the following is true for you regarding using Olelo Hawai'i (Hawaiian language)? (Select all that apply)`,levels = c("No","Yes"),ordered = FALSE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean = mean(as.numeric(Current_Q)) - 1, sd = sd(as.numeric(Current_Q)))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- glm(formula = Current_Q ~
+             1,data = Mod_df,family = "binomial")
+
+p0 <- glm(formula = Current_Q ~
+         Hawaiian, data = Mod_df,family = "binomial")
+
+p1 <- glm(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,family = "binomial")
+
+p2q26.6 <- glm(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,family = "binomial")
+
+anova(pn,p0,p1,p2q26.6, test = "Chisq")
+
+```
+
+
+Q35 How important are Native Hawaiian culture and values to solving the challenges facing Hawai'i today?
+
+```{r Q35, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q35 How important are Native Hawaiian culture and values to solving the challenges facing Hawai'i today?`,levels = c("Extremely", "Quite a bit", "Moderately", "A little bit", "Not at all"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  5 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q35 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2Q35)
+
+```
+
+Q21 How satisfied are you with your overall quality of life
+
+```{r Q21, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q21 How satisfied are you with your overall quality of life?`,levels = c("Very satisfied","Satisfied","Neutral","Unsatisfied","Very unsatisfied"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q21 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2Q21)
+
+```
+
+Q23 Overall, how hopeful are you about Hawai'i's future?
+
+```{r Q23, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q23 Overall, how hopeful are you about Hawai'i's future?`,levels = c("Extremely hopeful",  "Very hopeful", "Pretty hopeful", "A little hopeful", "Not at all hopeful"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = 6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  6 - mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q23 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+anova(pn,p0,p1,p2Q23)
+
+```
+
+Q44 What is the estimated yearly income of your household?
+
+```{r Q44, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q44 What is the estimated yearly income of your household?`,levels = c("Less than $25,000","$25,000 - $44,000","$45,000 - $64,000","$65,000 - $84,000","$85,000 - $104,000",
+  "$105,000 - $124,000","$125, 000 - $144,000","$145,000 - $164,000","$165,000 - $184,000","$185,000 - $200,000","More than $200,000"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+unique(Mod_df$`Q44 What is the estimated yearly income of your household?`)
+
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q23 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+summary(p2Q23)
+anova(pn,p0,p1,p2Q23)
+
+```
+
+Q44 What is the estimated yearly income of your household?
+
+```{r, echo=FALSE}
+Mod_df$Current_Q <- factor(Mod_df$`Q47 What is your highest level of education?`,levels = c("Less than high school", "High school or equivalent", "Some college or Associate's degree", "Bachelor's degree", "Masters degree or higher"),ordered = TRUE)
+
+Mod_df %>%
+  group_by(Current_Q) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Hawaiian) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by(Current_Q,Loc) %>%
+  summarise(n = n())
+
+Mod_df %>%
+  group_by() %>%
+  summarise(mean = mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Hawaiian) %>%
+  summarise(mean =  mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+Mod_df %>%
+  group_by(Loc) %>%
+  summarise(mean =  mean(as.numeric(Current_Q),na.rm = TRUE), sd = sd(as.numeric(Current_Q),na.rm = TRUE))
+
+```
+
+Analyses:
+
+```{r, echo=FALSE}
+
+pn <- polr(formula = Current_Q ~
+             1,data = Mod_df,Hess=TRUE)
+
+p0 <- polr(formula = Current_Q ~
+         Hawaiian, data = Mod_df,Hess=TRUE)
+
+p1 <- polr(formula = Current_Q ~
+         Loc +
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+p2Q23 <- polr(formula = Current_Q ~
+         Loc *
+         Hawaiian,data = Mod_df,Hess=TRUE)
+
+summary(p2Q23)
+anova(pn,p0,p1,p2Q23)
+
+```

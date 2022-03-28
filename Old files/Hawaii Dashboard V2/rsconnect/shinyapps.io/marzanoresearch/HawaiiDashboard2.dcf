@@ -1,0 +1,13 @@
+name: HawaiiDashboard2
+title: HawaiiDashboard2
+username:
+account: marzanoresearch
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4194579
+bundleId: 4753132
+url: https://marzanoresearch.shinyapps.io/HawaiiDashboard2/
+when: 1624567972.35926
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: app-draft-5-27.R|app_draft_HI.R|RMarkdownFile.md|RMarkdownFile.Rmd
